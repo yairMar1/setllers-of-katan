@@ -96,16 +96,29 @@ int main(){
     
     srand(time(0)); // ensure that the random number will be different each time
     
-    for(size_t i = 0; i < 5; i++){
-    p[0].rollDice(b, g1);
-    }
-    cout << endl;
-    p[0].getResources();
-    cout << endl;
-    p[1].getResources();
-    cout << endl;
-    p[2].getResources();
-    //********** player 1 try to place a settlement and road, detached from his tools on the board **********
+    // for(size_t i = 0; i < 5; i++){
+    // p[0].rollDice(b, g1);
+    // }
+    // cout << endl;
+    // p[0].getResources();
+    // cout << endl;
+    // p[1].getResources();
+    // cout << endl;
+    // p[2].getResources();
+    // //********** player 1 try to place a settlement and road, detached from his tools on the board **********
+    // // p[0].placeSettelemnt(b,b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
+    // // p[0].getSettlements();
+    // // p[0].placeRoad(b,b.get_board()[0].getEdges()[0]);// set e0 as a road
+    // // p[0].getRoads();
+    // // p[0].getNumberOfPoints();
+    // // cout << endl;
+
+
+    // //********** player 1 try to place a settlement and road, but he doesn't have enough resources**********
+    // p[0].rollDice(b, g1);
+    // cout << endl;
+    // p[0].getResources();
+    // cout << endl;
     // p[0].placeSettelemnt(b,b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
     // p[0].getSettlements();
     // p[0].placeRoad(b,b.get_board()[0].getEdges()[0]);// set e0 as a road
@@ -114,44 +127,63 @@ int main(){
     // cout << endl;
 
 
-    //********** player 1 try to place a settlement and road, but he doesn't have enough resources**********
-    p[0].rollDice(b, g1);
-    cout << endl;
-    p[0].getResources();
-    cout << endl;
-    p[0].placeSettelemnt(b,b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
-    p[0].getSettlements();
-    p[0].placeRoad(b,b.get_board()[0].getEdges()[0]);// set e0 as a road
-    p[0].getRoads();
-    p[0].getNumberOfPoints();
-    cout << endl;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // //********** player 1 place a road, settlement and city. he have enough resources. we can see the amount of his resources get down**********
     // for(size_t i = 0; i < 100; i++){
-    //     cout << p1.rollDice() << " ";
+    //     p1.rollDice(b, g1);
     // }
     // cout << endl;
+    // p[0].getResources();
+    // cout << endl;
+    // p[0].placeRoad(b, b.get_board()[0].getEdges()[1]);// set e1 as a road
+    // p[0].getResources();
+    // cout << endl;
+    // p[0].placeSettelemnt(b, b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
+    // p[0].getResources();
+    // p[0].getSettlements();
+    // p[0].getNumberOfPoints();
+    // cout << endl;
+    // p[0].placeCity(b, b.get_board()[0].getVertexes()[1]);// set v1 as a city
+    // p[0].getResources();
+    // p[0].getSettlements();
+    // p[0].getCitys();
+    // p[0].getNumberOfPoints();
+    // cout << endl;
+
+    for(size_t i = 0; i < 10; i++){ // we can see that if dice show 10, player 1 ,get 2 iron from tile 10
+        p[0].rollDice(b, g1);
+    }
+    cout << endl;
+
+    // //********** player 1 try to trade with player 2 **********
+    // p[0].getResources();
+    // cout << endl;
+    // p[1].getResources();
+    // cout << endl;
+    // p[0].trade(p[1], 1, 0, 0, 0, 0, 0, 0, 0, 1, 0);// player 1 ask, 1 wood for 1 sheep
+    // cout << endl;
+    // p[0].getResources();
+    // cout << endl;
+    // p[1].getResources();
+    // cout << endl;
+
+    //********** another player try to ineterupt to another player turn **********
+    p[0].rollDice(b, g1);
+    cout << endl;
+    p[1].placeRoad(b, b.get_board()[0].getEdges()[1]);
+    cout << "is the turn of yair ? " << p[0].getMyTurn() << endl;
+    p[0].endTurn(g1);
+    cout << "is the turn of yair ? " << p[0].getMyTurn() << endl;
+
+    p[0].rollDice(b, g1);// player 1 try to roll the dice again after he end his turn
+    cout << endl;
+    p[2].rollDice(b, g1); // player 3 try to bypass the turn
+    cout << endl;
+    p[1].rollDice(b, g1); // player 2 roll the dice, the turn is now of player 2
+    cout << endl;
+
+
+
+   
 
     //b.printBoard();
     // for(size_t i = 0; i < 19; i++){ // all vertices that are clear

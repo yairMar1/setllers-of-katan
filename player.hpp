@@ -25,14 +25,16 @@ private:
     vector<vertex*> settlements;
     vector<vertex*> citys;
     vector<size_t> resources = {0,0,0,0,0};
-    bool myTurn;
+    bool myTurn = false;
+    bool hasRollDice = false;
 public:
     //Access to a player's fields
     player(string nameOfPlayer, size_t age);
     void getNumberOfPoints();
-
-    void getCitys();
-    void setCitys(int vertexNumber);
+    size_t getMyTurn();
+    void setMyTurn(bool b);
+    void getCitys(); // print the citys of the player
+    vector<size_t> getCitys(int v); // function i use in gameLogic.cpp to get the vector of city's player
 
     void printPlayer(); // print ditails of the player
     void getResources(); // print the resources of the player
@@ -47,16 +49,15 @@ public:
     void getSettlements(); // print the settlements of the player
     vector<size_t> getSettlements(size_t i); // function i use in gameLogic.cpp to get the vector of settlement's player
 
-    void placeCity();
+    void placeCity(board& b, vertex* v);
     void placeRoad(board& b, edge* e,size_t n);// for the two first action of the player (need less checks)
     void placeRoad(board& b, edge* e);  // for the rest action of the player (need more checks)
     void getRoads();
 
     void buyDevelopmentCard();
-    void trade();
-    void endTurn();
-
-
+    // the four number is the resources that the player want to trade, the last four is the resources that the player want to get (the place of the resource in the function is the same as the place of the resource in the vector of the player's class)
+    void trade(player& p, size_t resource, size_t resource2, size_t resource3, size_t resource4,size_t resource5,size_t resource6, size_t resource7, size_t resource8, size_t resource9, size_t resource10);
+    void endTurn(gameLogic &g);
     
 };
 #endif // PLAYER_HPP

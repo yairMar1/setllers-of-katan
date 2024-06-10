@@ -14,6 +14,30 @@ void player::getNumberOfPoints(){
     cout << getNameOfPlayer() << " have " << numberOfPoints << " points" << endl;
 }
 
+size_t player::getMyTurn(){
+    return myTurn;
+}
+
+void player::setMyTurn(bool b){
+    myTurn = b;
+}
+
+void player::getCitys(){
+    cout << "The citys of " << getNameOfPlayer() << ": ";
+    for(size_t i = 0; i < citys.size(); i++){
+        cout << citys[i]->getNumberId() << " ";
+    }
+    cout << endl;
+}
+
+vector<size_t> player::getCitys(int v){
+    vector<size_t> temp;
+    for(size_t i = 0; i < citys.size(); i++){
+        temp.push_back(citys[i]->getNumberId());
+    }
+    return temp;
+}
+
 void player::getSettlements(){
     cout << "The settlements of " << getNameOfPlayer() << ": ";
     for(size_t i = 0; i < settlements.size(); i++){
@@ -99,15 +123,26 @@ void player::setResources(size_t resource, int amount){
 }
 
 void player::rollDice(board& b, gameLogic& g){
-    myTurn = true;
+    if(hasRollDice == true){
+        cout << getNameOfPlayer() << " already rolled the dice, choose another action" << endl;
+        return;
+    }
+    if(g.getNumberTurn() == 1){ // if it's the first turn of the game that the dice will rolled
+        g.getPlayer(0).setMyTurn(true);
+        g.setNumberTurn(2);
+    }
+    if(getMyTurn() == false){ // if it's not the turn of the player
+        cout << getNameOfPlayer() << " It's not your turn, please wait" << endl;
+        return;
+    }
+    cout << getNameOfPlayer() << " start his turn" << endl;
     size_t dice1 = rand() % 6 + 1;
     size_t dice2 = rand() % 6 + 1;
     size_t sum = dice1 + dice2;
     cout << getNameOfPlayer() << " rolled: " << dice1 << " and " << dice2 << " the sum is: " << sum << endl;
     
     g.addResources(b, sum);
-    
-    //return sum;
+    hasRollDice = true;
 }
 
 // void player::placeSettelemnt(board& b, vertex* v, size_t n){
@@ -188,6 +223,10 @@ void player::placeSettelemnt(board& b, vertex* v, size_t n){
 }
 
 void player::placeSettelemnt(board& b, vertex* v){
+    if(getMyTurn() == false){
+        cout << "It's not your turn, please wait" << endl;
+        return;
+    }
     if(getResources(WOOD, "wood") < 1 || getResources(CLAY, "clay") < 1 || getResources(WHEAT, "wheat") < 1 || getResources(SHEEP, "sheep") < 1){ // cheack if the player has enough resources
         cout << "You don't have enough resources to build a settlement, choose another action" << endl;
         return;
@@ -222,6 +261,7 @@ void player::placeSettelemnt(board& b, vertex* v){
             }
         }
     }
+    bool foundConsecutiveRoads = false;
     // Check if the player has a two consecutive roads before placing a settlement
     for(size_t i = 0; i < roads.size(); i++){
         if(roads[i]->getVertexA()->getNumberId() == v->getNumberId()){
@@ -233,6 +273,7 @@ void player::placeSettelemnt(board& b, vertex* v){
                 }
             }
             if(counter > 1){ // there is two consecutive roads that belong to the player
+            foundConsecutiveRoads = true;
                 v->setIsClear(false); // Set the vertex to occupied
                 //b.get_board()[i].getVertexes()[j]->setIsClear(false); // Set the vertex to occupied (from the board)
                 cout << getNameOfPlayer() << " placed settlement on vertex " << v->getNumberId() << ", on junction: ";
@@ -266,6 +307,7 @@ void player::placeSettelemnt(board& b, vertex* v){
                 }
             }
             if(counter > 1){ // there is two consecutive roads that belong to the player
+            foundConsecutiveRoads = true;
                 v->setIsClear(false); // Set the vertex to occupied
                 //b.get_board()[i].getVertexes()[j]->setIsClear(false); // Set the vertex to occupied (from the board)
                 cout << getNameOfPlayer() << " placed settlement on vertex " << v->getNumberId() << ", on junction: ";
@@ -290,10 +332,10 @@ void player::placeSettelemnt(board& b, vertex* v){
                 return;
             }
         }
-        else{
-            cout << getNameOfPlayer() << ", You need to have two consecutive roads before placing a settlement on " << v->getNumberId() << ", choose another action" << endl;
-            return;
-        }
+    }
+    if(foundConsecutiveRoads == false){ // If the player want to place settlement with no connection to his tool on the board
+        cout << getNameOfPlayer() << ", You need to have two consecutive roads before placing a settlement on " << v->getNumberId() << ", choose another action" << endl;
+        return;
     }
 }
 
@@ -324,8 +366,40 @@ void player::placeSettelemnt(board& b, vertex* v){
 //     }
 // }
 
+void player::placeCity(board &b, vertex *v){
+    if(getMyTurn() == false){
+        cout << "It's not your turn, please wait" << endl;
+        return;
+    }
+    if(getResources(IRON, "iron") < 3 || getResources(WHEAT, "wheat") < 2){ // cheack if the player has enough resources
+        cout << "You don't have enough resources to build a city, choose another action" << endl;
+        return;
+    }
+    for(size_t i = 0; i < settlements.size(); i++){
+        if(settlements[i]->getNumberId() == v->getNumberId()){
+            cout << getNameOfPlayer() << " placed city on vertex " << v->getNumberId() << ", on junction: ";
+            for(size_t k = 0; k < 19; k++){
+                for(size_t l = 0; l < 6; l++){
+                    if(b.get_board()[k].getVertexes()[l]->getNumberId() == v->getNumberId()){
+                        cout << b.get_board()[k].getNumber() << " " << b.get_board()[k].getTypeOfResource() << " ";
+                    }
+                }
+            }
+            cout << endl;
+            settlements.erase(settlements.begin() + i);
+            numberOfPoints -= 1; // remove the settlement
+            citys.push_back(v);
+            numberOfPoints += 2; // add the city
+            setResources(IRON, -3); // payment for the city
+            setResources(WHEAT, -2);
+            return;
+        }
+    }
+    cout << getNameOfPlayer() << " You don't have a settlement on vertex " << v->getNumberId() << " choose another vertex" << endl;
+    return;
+}
 
-void player::placeRoad(board& b, edge* e ,size_t n){
+void player::placeRoad(board &b, edge *e, size_t n){
     for(size_t i = 0; i < 19; i++){
         for(size_t j = 0; j < 6; j++){
             if(b.get_board()[i].getEdges()[j]->getNameOfEdge() == e->getNameOfEdge()){
@@ -381,6 +455,10 @@ void player::placeRoad(board& b, edge* e ,size_t n){
 }
 
 void player::placeRoad(board& b, edge* e){
+    if(getMyTurn() == false){
+        cout << getNameOfPlayer() << " It's not your turn, please wait" << endl;
+        return;
+    }
     if(getResources(WOOD, "wood") < 1 || getResources(CLAY, "clay") < 1){ // cheack if the player has enough resources
         cout << "You don't have enough resources to build a road, choose another action" << endl;
         return;
@@ -449,4 +527,74 @@ void player::getRoads(){
         cout << roads[i]->getNameOfEdge();
     }
     cout << endl;
+}
+
+void player::trade(player &p, size_t resource, size_t resource2, size_t resource3, size_t resource4, size_t resource5, size_t resource6, size_t resource7, size_t resource8, size_t resource9, size_t resource10){
+    if(getMyTurn() == false){
+        cout << "it's not your turn, please wait" << endl;
+        return;
+    }
+    if(&p == this){
+        cout << "You can't trade with yourself" << endl;
+        return;
+    }
+    if(resource < 0 || resource2 < 0 || resource3 < 0 || resource4 < 0 || resource5 < 0 || resource6 < 0 || resource7 < 0 || resource8 < 0){
+        cout << "Invalid trade" << endl;
+        return;
+    }
+    if(p.getResources(WOOD,"resource") < resource || p.getResources(IRON,"resource") < resource2 || p.getResources(WHEAT,"resource") < resource3 || p.getResources(SHEEP,"resource") < resource4 || p.getResources(CLAY,"resource") < resource5){
+        cout << "He don't have enough resources to trade" << endl;
+        return;
+    }
+    if(getResources(WOOD,"resource") < resource6 || getResources(IRON,"resource") < resource7 || getResources(WHEAT,"resource") < resource8 || getResources(SHEEP,"resource") < resource9 || getResources(CLAY,"resource") < resource10){
+        cout << "You don't have enough resources to trade" << endl;
+        return;
+    }
+
+    cout << p.getNameOfPlayer() << ", " << getNameOfPlayer() << " wants to trade (give): " << resource << " wood, " << resource2 << " iron, " << resource3 << " wheat, " << resource4 << " sheep, " << resource5 << " clay" << ". for (receive): " << resource6 << " wood, " << resource7 << " iron, " << resource8 << " wheat, " << resource9 << " sheep, " << resource10 << " clay" << endl;
+    cout << p.getNameOfPlayer() << ", would you like to accept the trade? (yes/no): ";
+    string s;
+    cin >> s;// get the answer from the player
+
+    if((s != "yes" && s != "Yes") && (s != "no" && s != "No")){
+        cout << "Trade canceled, invalid argument (option: yes or Yes, no or No)" << endl;
+        return;
+    }
+
+    if(s == "no" || s == "No") {
+        cout << "Trade canceled" << endl;
+        return;
+    }
+
+    //**** the resources's change, other player ****
+    p.setResources(WOOD, -resource);// remove the resources from the player
+    p.setResources(IRON, -resource2);
+    p.setResources(WHEAT, -resource3);
+    p.setResources(SHEEP, -resource4);
+    p.setResources(CLAY, -resource5);
+    p.setResources(WOOD, resource6);// add the resources to the player
+    p.setResources(IRON, resource7);
+    p.setResources(WHEAT, resource8);
+    p.setResources(SHEEP, resource9);
+    p.setResources(CLAY, resource10);
+    // **** the resources's change, this player ****
+    setResources(WOOD, -resource6);// remove the resources from the player
+    setResources(IRON, -resource7);
+    setResources(WHEAT, -resource8);
+    setResources(SHEEP, -resource9);
+    setResources(CLAY, -resource10);
+    setResources(WOOD, resource);// add the resources to the player
+    setResources(IRON, resource2);
+    setResources(WHEAT, resource3);
+    setResources(SHEEP, resource4);
+    setResources(CLAY, resource5);
+    cout << "Trade completed" << endl;
+    cout << "You receive from " << p.getNameOfPlayer() << ": " << resource << " wood, " << resource2 << " iron, " << resource3 << " wheat, " << resource4 << " sheep, " << resource5 << " clay" << endl;
+    cout << "You give to " << p.getNameOfPlayer() << ": "  << resource6 << " wood, " << resource7 << " iron, " << resource8 << " wheat, " << resource9 << " sheep, " << resource10 << " clay" << endl;
+}
+
+void player::endTurn(gameLogic &g){
+    cout << getNameOfPlayer() << " end his turn" << endl;
+    hasRollDice = false;
+    g.nextTurn();
 }
