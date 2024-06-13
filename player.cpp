@@ -1,5 +1,10 @@
 #include "player.hpp"
-#include "person.hpp"
+#include "deck.hpp"
+#include "monopolyCard.hpp"
+#include "roadBuildingCard.hpp"
+#include "victoryPointCard.hpp"
+#include "yearOfPlentyCard.hpp"
+#include "KnightCard.hpp"
 
 #include <string>
 #include <vector>
@@ -8,10 +13,19 @@
 using namespace std;
 
 player::player(string nameOfPlayer, size_t age) : person(nameOfPlayer, age){
+    developmentCards["Knight"] = 0;
+    developmentCards["VictoryPoint"] = 0;
+    developmentCards["YearOfPlenty"] = 0;
+    developmentCards["Monopoly"] = 0;
+    developmentCards["RoadBuilding"] = 0;
 }
 
 void player::getNumberOfPoints(){
     cout << getNameOfPlayer() << " have " << numberOfPoints << " points" << endl;
+}
+
+void player::setNumberOfPoints(size_t n){
+    numberOfPoints += n;
 }
 
 size_t player::getMyTurn(){
@@ -36,6 +50,18 @@ vector<size_t> player::getCitys(int v){
         temp.push_back(citys[i]->getNumberId());
     }
     return temp;
+}
+
+size_t player::getKnightCards(){
+    return numberOfKnightCards;
+}
+
+void player::setKnightCards(size_t n){
+    numberOfKnightCards += n;
+    if(getKnightCards() == 3){ // check if the player has 3 knight cards
+        cout << getNameOfPlayer() << " has 3 knight cards, he get 2 victory points" << endl;
+        setNumberOfPoints(2);
+    }
 }
 
 void player::getSettlements(){
@@ -145,35 +171,6 @@ void player::rollDice(board& b, gameLogic& g){
     hasRollDice = true;
 }
 
-// void player::placeSettelemnt(board& b, vertex* v, size_t n){
-//     for(size_t i = 0; i < 19; i++){
-//         for(size_t j = 0; j < 6; j++){
-//             if(b.get_board()[i].getVertexes()[j]->getNumberId() == v->getNumberId()){
-//                 if(b.get_board()[i].getVertexes()[j]->getIsClear()){ // If the vertex is clear
-//                     b.get_board()[i].getVertexes()[j]->setIsClear(false); // Set the vertex to occupied
-//                     cout << getNameOfPlayer() << " placed settlement on vertex " << v->getNumberId() << ", on junction: ";
-//                     for(size_t k = 0; k < 19; k++){
-//                         for(size_t l = 0; l < 6; l++){
-//                             if(b.get_board()[k].getVertexes()[l]->getNumberId() == v->getNumberId()){
-//                                 cout << b.get_board()[k].getNumber() << " " << b.get_board()[k].getTypeOfResource() << " ";
-//                             }
-//                         }
-//                     }
-//                     cout << endl;
-//                     settlements.push_back(v);
-//                     numberOfPoints += 1;
-//                     return;
-//                 }
-//                 else{
-//                     cout << "This vertex " << v->getNumberId() << " is already occupied, please choose another vertex" << endl;
-//                     return;  // Exit the function if the vertex is occupied
-//                 }
-//             }
-//         }
-//     }
-// }
-
-
 void player::placeSettelemnt(board& b, vertex* v, size_t n){
     for(size_t i = 0; i < 19; i++){
         for(size_t j = 0; j < 6; j++){
@@ -219,6 +216,28 @@ void player::placeSettelemnt(board& b, vertex* v, size_t n){
     cout << endl;
     settlements.push_back(v);
     numberOfPoints += 1;
+    // when the player place the first settlement he get the resources of the tile
+    for (size_t i = 0; i < 19; i++){
+        for (size_t j = 0; j < 6; j++){ // Go over the tile vertices
+                    if (b.get_board()[i].getVertexes()[j]->getNumberId() == v->getNumberId()){ // if the settlement belongs to player
+                        if (b.get_board()[i].getTypeOfResource() == "wood"){
+                            setResources(WOOD, 1);
+                            }
+                            else if (b.get_board()[i].getTypeOfResource() == "iron"){
+                            setResources(IRON, 1);
+                            }
+                            else if (b.get_board()[i].getTypeOfResource() == "wheat"){
+                            setResources(WHEAT, 1);
+                            }
+                            else if (b.get_board()[i].getTypeOfResource() == "sheep"){
+                            setResources(SHEEP, 1);
+                            }
+                            else if (b.get_board()[i].getTypeOfResource() == "clay"){
+                            setResources(CLAY, 1);
+                            }
+                        }
+                    }
+                }
     return;
 }
 
@@ -338,33 +357,6 @@ void player::placeSettelemnt(board& b, vertex* v){
         return;
     }
 }
-
-// void player::placeRoad(board& b, edge* e){
-//     for(size_t i = 0; i < 19; i++){
-//         for(size_t j = 0; j < 6; j++){
-//             if(b.get_board()[i].getEdges()[j]->getNameOfEdge() == e->getNameOfEdge()){
-//                 if(b.get_board()[i].getEdges()[j]->getIsClear()){ // If the edge is clear
-//                     b.get_board()[i].getEdges()[j]->setIsClear(false); // Set the edge to occupied
-//                     cout << getNameOfPlayer() << " placed road on edge " << e->getNameOfEdge() << " on tile: ";
-//                     for(size_t k = 0; k < 19; k++){
-//                         for(size_t l = 0; l < 6; l++){
-//                             if(b.get_board()[k].getEdges()[l]->getNameOfEdge() == e->getNameOfEdge()){
-//                                 cout << b.get_board()[k].getNumber() << " " << b.get_board()[k].getTypeOfResource() << " ";
-//                             }
-//                         }
-//                     }
-//                     cout << endl;
-//                     roads.push_back(e);
-//                     return;
-//                 }
-//                 else{
-//                     cout << "This edge " << e->getNameOfEdge() << " is already occupied, please choose another edge" << endl;
-//                     return;  // Exit the function if the edge is occupied
-//                 }
-//             }
-//         }
-//     }
-// }
 
 void player::placeCity(board &b, vertex *v){
     if(getMyTurn() == false){
@@ -529,7 +521,61 @@ void player::getRoads(){
     cout << endl;
 }
 
-void player::trade(player &p, size_t resource, size_t resource2, size_t resource3, size_t resource4, size_t resource5, size_t resource6, size_t resource7, size_t resource8, size_t resource9, size_t resource10){
+void player::addDevelopmentCard(string s){
+    if(s != "Knight" && s != "Road Building" && s != "Year of Plenty" && s != "Monopoly" && s != "Victory Point"){
+        cout << "Invalid development card" << endl;
+        return;
+    }
+    cout << getNameOfPlayer() << " get a development card: " << s << endl;
+    developmentCards[s] += 1;
+}
+
+void player::buyDevelopmentCard(deck &d, gameLogic &g){
+    if(getMyTurn() == false){
+        cout << "It's not your turn, please wait" << endl;
+        return;
+    }
+    if(getResources(WHEAT, "wheat") < 1 || getResources(SHEEP, "sheep") < 1 || getResources(IRON, "iron") < 1){ // cheack if the player has enough resources
+        cout << getNameOfPlayer() << " don't have enough resources to buy a development card, choose another action" << endl;
+        return;
+    }
+    setResources(WHEAT, -1); // payment for the development card
+    setResources(SHEEP, -1);
+    setResources(IRON, -1);
+    cout << getNameOfPlayer() << " bought a development card" << endl;
+    addDevelopmentCard(d.drawCard()); // draw a card from the deck, and add it to the player's development cards
+}
+
+void player::playDevelopmentCard(gameLogic& g, deck& d, const string& cardType) {
+    if (developmentCards[cardType] > 0) {
+        if (cardType == "Knight") {
+            KnightCard().playCard(*this, g);
+        } else if (cardType == "RoadBuilding") {
+            roadBuildingCard().playCard(*this, g);
+        } else if (cardType == "YearOfPlenty") {
+            yearOfPlentyCard().playCard(*this, g);
+        } else if (cardType == "Monopoly") {
+            monopolyCard().playCard(*this, g);
+        } else if (cardType == "VictoryPoint") {
+            victoryPointCard().playCard(*this, g);
+        } else {
+            cout << "Unknown card type!" << endl;
+            return;
+        }
+        developmentCards[cardType]--;
+    } else {
+        cout << "No " << cardType << " card available!" << endl;
+    }
+}
+
+void player::printDevelopmentCards() {
+    for (const auto& [cardType, count] : developmentCards) {
+        std::cout << cardType << ": " << count << std::endl;
+    }
+}
+
+void player::trade(player &p, size_t resource, size_t resource2, size_t resource3, size_t resource4, size_t resource5, size_t resource6, size_t resource7, size_t resource8, size_t resource9, size_t resource10)
+{
     if(getMyTurn() == false){
         cout << "it's not your turn, please wait" << endl;
         return;

@@ -3,13 +3,17 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include <iostream> 
+// #include "player.hpp"
 
+class player;
+class gameLogic;
 using namespace std;
 
 class developmentCard{
 public:
     virtual string getType() const = 0;
-    virtual ~DevelopmentCard() = default;
+    virtual void playCard(player& p, gameLogic& g) = 0;
+    //virtual ~developmentCard() = default;
 };
 #endif // DEVELOPMENTCARD_HPP

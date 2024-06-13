@@ -4,26 +4,15 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "developmentCard.hpp"
+#include "player.hpp"
 
 using namespace std;
 
 class KnightCard : public developmentCard{
-    KnightCard(){
-        if(count >3){
-            throw std::invalid_argument("Cannot create more than 3 Knight Cards");
-        }
-        count++;
-    }
-    ~KnightCard(){
-        count--;
-    }
 public:
-    string getType() const override{
-        return "Knight";
-    }
-    void playCard(){
-        cout << "You played a Knight card" << endl;
-
-    }
+    string getType() const override;
+    //~KnightCard() = default;
+    void playCard(player& p, gameLogic& g) override;
 };
 #endif // KNIGHTCARD_HPP

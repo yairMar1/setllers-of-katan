@@ -4,17 +4,16 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "developmentCard.hpp"
+#include "gameLogic.hpp"
+#include "player.hpp"
 
 using namespace std;
 
 class monopolyCard : public developmentCard{
 public:
-    string getType() const override{
-        return "Monopoly";
-    }
-    //~MonopolyCard() = default;
-    void playCard(){
-        cout << "You played a Monopoly card" << endl;
-    }
+    string getType() const override;
+    //~monopolyCard() = default;
+    void playCard(player& p, gameLogic& g) override;
 };
 #endif // MONOPOLYCARD_HPP

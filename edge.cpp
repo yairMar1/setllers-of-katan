@@ -6,9 +6,7 @@
 
 using namespace std;
 
-edge::edge(vertex* a, vertex* b) : a(a), b(b){
-    //cout << "Edge created with vertex: " << a.getNumberId() << " and " << b.getNumberId() << endl;
-}
+edge::edge(vertex* a, vertex* b) : a(a), b(b){}
 
 vertex *edge::getVertexA(){
     return a;
@@ -35,14 +33,13 @@ bool edge::getIsClear(){
 
 void edge::setIsClear(bool newValue){
     if(isClear == true){
-    this->isClear = newValue;
-            //cout << "The boolean value in it, had been changed" << endl;
+        this->isClear = newValue;
     }else{
         cout << "Edge is already occupied" << endl;
     }
 }
 
-void edge::printEdge(){
+void edge::printEdge() const{
     cout << "Vertex A: " << a->getNumberId() << endl;
     cout << "Vertex B: " << b->getNumberId() << endl;
     cout << "Is Clear: " << isClear << endl << endl;

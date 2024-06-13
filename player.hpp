@@ -6,16 +6,21 @@
 #include "tile.hpp"
 #include "board.hpp"
 #include "person.hpp"
-#include "gameLogic.hpp"
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 # define WOOD 0
 # define IRON 1
 # define WHEAT 2
 # define SHEEP 3
 # define CLAY 4
+class gameLogic;
+class deck;
+
+using namespace std;
 
 class player : public person
 {
@@ -27,14 +32,23 @@ private:
     vector<size_t> resources = {0,0,0,0,0};
     bool myTurn = false;
     bool hasRollDice = false;
+    size_t numberOfKnightCards = 0;
+    //vector<string> developmentCards = {0,0,0,0,0};
+    // map<string, int> developmentCards;
+    map<string, int> developmentCards;
+
 public:
     //Access to a player's fields
     player(string nameOfPlayer, size_t age);
+
     void getNumberOfPoints();
+    void setNumberOfPoints(size_t n); // function to set the number of points of the player (i use it in victoryOfPointsCard.hpp)
     size_t getMyTurn();
     void setMyTurn(bool b);
     void getCitys(); // print the citys of the player
     vector<size_t> getCitys(int v); // function i use in gameLogic.cpp to get the vector of city's player
+    size_t getKnightCards(); // print the knight cards of the player
+    void setKnightCards(size_t n); // function to set the number of knight cards of the player (i use it in knightCard.hpp)
 
     void printPlayer(); // print ditails of the player
     void getResources(); // print the resources of the player
@@ -54,7 +68,11 @@ public:
     void placeRoad(board& b, edge* e);  // for the rest action of the player (need more checks)
     void getRoads();
 
-    void buyDevelopmentCard();
+    void addDevelopmentCard(string s);
+    void buyDevelopmentCard(deck& d, gameLogic& g);
+    void playDevelopmentCard(gameLogic& g, deck& d, const string& cardType);
+    void printDevelopmentCards();
+
     // the four number is the resources that the player want to trade, the last four is the resources that the player want to get (the place of the resource in the function is the same as the place of the resource in the vector of the player's class)
     void trade(player& p, size_t resource, size_t resource2, size_t resource3, size_t resource4,size_t resource5,size_t resource6, size_t resource7, size_t resource8, size_t resource9, size_t resource10);
     void endTurn(gameLogic &g);

@@ -10,6 +10,20 @@
 #include "player.hpp"
 #include "person.hpp"
 #include "gameLogic.hpp"
+#include "developmentCard.hpp"
+#include "deck.hpp"
+
+#define KNIGHT "Knight"
+#define ROAD_BUILDING "RoadBuilding"
+#define YEAR_OF_PLENTY "YearOfPlenty"
+#define MONOPOLY "Monopoly"
+#define VICTORY_POINT "VictoryPoint"
+
+// #include "KnightCard.hpp"
+// #include "monopolyCard.hpp"
+// #include "roadBuildingCard.hpp"
+// #include "victoryPointCard.hpp"
+// #include "yearOfPlentyCard.hpp"
 
 using namespace std;
 
@@ -23,6 +37,8 @@ int main(){
     g1.chooseFirstPlayer();
     board b;
     
+    deck d;
+    d.printDeck();
     cout << endl;
     // cout << p[0].getNameOfPlayer() << endl;
     // cout << p[1].getNameOfPlayer() << endl;
@@ -43,6 +59,7 @@ int main(){
     
     //First turn of the game - each player places a settlement and a road on the board
     p[0].placeSettelemnt(b, b.get_board()[0].getVertexes()[3], 1);// set v31 as a settlement
+    p[0].getResources();
     p[0].getSettlements();
     p[0].placeRoad(b, b.get_board()[0].getEdges()[2], 1);// set e2 as a road
     p[0].getRoads();
@@ -50,6 +67,7 @@ int main(){
     cout << endl;
     //********* second player try to place a settlement and a road on the same vertex and edge **********
     p[1].placeSettelemnt(b,b.get_board()[1].getVertexes()[4], 1);// set v31 as a settlement, but it is already occupied
+    p[1].getResources();
     p[1].getSettlements();
     p[1].placeRoad(b,b.get_board()[0].getEdges()[2], 1);// set e2 as a settlement, but it is already occupied
     p[1].getRoads();
@@ -57,6 +75,7 @@ int main(){
     //********* second player place a settlement and a road on another vertex and edge **********
     cout << endl;
     p[1].placeSettelemnt(b,b.get_board()[12].getVertexes()[1], 1);// set v43 as a settlement
+    p[1].getResources();
     p[1].getSettlements();
     p[1].placeRoad(b,b.get_board()[12].getEdges()[3], 1);// set e49 as a settlement
     p[1].getRoads();
@@ -64,6 +83,7 @@ int main(){
     cout << endl;
 
     p[2].placeSettelemnt(b,b.get_board()[10].getVertexes()[0], 1);// set v36 as a settlement
+    p[2].getResources();
     p[2].getSettlements();
     p[2].placeRoad(b,b.get_board()[10].getEdges()[4], 1);// set e30 as a settlement
     p[2].getRoads();
@@ -71,6 +91,7 @@ int main(){
     cout << endl;
     //second turn of the game - each player places a settlement and a road on the board
     p[0].placeSettelemnt(b,b.get_board()[7].getVertexes()[2], 1);// set v46 as a settlement
+    p[0].getResources();
     p[0].getSettlements();
     p[0].placeRoad(b,b.get_board()[7].getEdges()[2], 1);// set e32 as a road
     p[0].getRoads();
@@ -78,6 +99,7 @@ int main(){
     cout << endl;
 
     p[1].placeSettelemnt(b,b.get_board()[15].getVertexes()[0], 1);// set v12 as a settlement
+    p[1].getResources();
     p[1].getSettlements();
     p[1].placeRoad(b,b.get_board()[15].getEdges()[4], 1);// set e48 as a road
     p[1].getRoads();
@@ -85,6 +107,7 @@ int main(){
     cout << endl;
 
     p[2].placeSettelemnt(b,b.get_board()[17].getVertexes()[5], 1);// set v41 as a settlement
+    p[2].getResources();
     p[2].getSettlements();
     p[2].placeRoad(b,b.get_board()[17].getEdges()[4], 1);// set e54 as a road
     p[2].getRoads();
@@ -180,10 +203,37 @@ int main(){
     cout << endl;
     p[1].rollDice(b, g1); // player 2 roll the dice, the turn is now of player 2
     cout << endl;
+    p[1].endTurn(g1);
+    cout << endl;
+    p[2].rollDice(b, g1); // player 3 roll the dice, the turn is now of player 3
+    cout << endl;
+    p[2].endTurn(g1);
+    cout << endl;
+    p[0].rollDice(b, g1); // player 1 roll the dice, the turn is now of player 1
+    cout << endl;
+    //********** player 1 try to buy a development card **********
+    // p[0].buyDevelopmentCard(d);
+    // p[0].playDevelopmentCard(d, g1);
+
+    p[0].getResources();
+    cout << endl;
+    p[0].buyDevelopmentCard(d, g1);
+    p[0].printDevelopmentCards();
+    cout << endl;
+    p[0].playDevelopmentCard(g1, d, KNIGHT);
+    cout << p[0].getKnightCards() << endl;
+    p[0].playDevelopmentCard(g1, d, ROAD_BUILDING);
+    p[0].playDevelopmentCard(g1, d, YEAR_OF_PLENTY);
+    p[0].playDevelopmentCard(g1, d, MONOPOLY);
+    p[0].playDevelopmentCard(g1, d, VICTORY_POINT);
+    cout << endl;
+    p[0].printDevelopmentCards();
+    
 
 
 
-   
+
+
 
     //b.printBoard();
     // for(size_t i = 0; i < 19; i++){ // all vertices that are clear
