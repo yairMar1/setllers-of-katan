@@ -21,11 +21,13 @@ private:
     vector<string> cards;
 public:
     deck();
+    size_t getDeckSize(); // Get the size of the deck
     vector<string> initializeDeck(); // Initialize the deck with specific number of cards
     void shuffleDeck(); // Shuffle the deck
     string drawCard(); // Draw a card from the deck
     void printDeck(); // Print the deck
-    void addCard(string card); // Add a card to the deck, after a player uses a card
+    //void addCard(string card); // Add a card to the deck, after a player uses a card
+    void addCard(const string& card);
 };
 
 #endif // DECK_HPP

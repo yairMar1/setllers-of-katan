@@ -15,5 +15,6 @@ public:
     void chooseFirstPlayer();
     void nextTurn();
     void addResources(board& b, size_t sum);
+    string gameFhinished();
 };
 #endif // GAMELOGIC_HPP

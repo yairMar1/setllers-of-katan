@@ -1,4 +1,3 @@
-// #include "player.hpp"
 #include "gameLogic.hpp"
 
 #include <string>
@@ -45,6 +44,21 @@ void gameLogic::nextTurn(){
 }
 
 void gameLogic::addResources(board &b, size_t sum){
+//**** if the dices show 7 */
+    if(sum == 7){
+        for(size_t i = 0; i < 3; i++){ // go over the players
+            if(players[i].getAllResources() > 7){ // if player have more than 7 resources
+
+                size_t count = players[i].getAllResources()/2; // the player will return half of the resources
+                for(size_t j = 0; j < count; j++){
+                    if(players[i].getResources(j%5, "resource") > 0){
+                        players[i].setResources(j%5, -1); // go over the resources, and remove from wood to clay each time one resource if it more than 0
+                    }
+                }
+            }
+        }
+    }
+//**** if the dices don't show 7 */
     for (size_t i = 0; i < 19; i++){
         if (b.get_board()[i].getNumber() == sum){ // if the number of the tile is equal to the sum of the dice
             if (b.get_board()[i].getHasRobbed() == false){ // if the tile has not been robbed
@@ -95,4 +109,16 @@ void gameLogic::addResources(board &b, size_t sum){
             }
         }
     }
+}
+
+string gameLogic::gameFhinished(){
+    string res;
+    for(size_t i = 0; i < 3; i++){
+        if(players[i].getNumberOfPoints(1) > 9){
+            res =  players[i].getNameOfPlayer() + " is the winner, he got 10 points";
+            return res;
+        }
+    }
+    res = "There is no winner";
+    return res;
 }

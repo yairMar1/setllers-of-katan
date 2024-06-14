@@ -24,6 +24,10 @@ void player::getNumberOfPoints(){
     cout << getNameOfPlayer() << " have " << numberOfPoints << " points" << endl;
 }
 
+size_t player::getNumberOfPoints(size_t n){
+    return numberOfPoints;
+}
+
 void player::setNumberOfPoints(size_t n){
     numberOfPoints += n;
 }
@@ -60,7 +64,7 @@ void player::setKnightCards(size_t n){
     numberOfKnightCards += n;
     if(getKnightCards() == 3){ // check if the player has 3 knight cards
         cout << getNameOfPlayer() << " has 3 knight cards, he get 2 victory points" << endl;
-        setNumberOfPoints(2);
+        numberOfPoints += 2;
     }
 }
 
@@ -137,6 +141,14 @@ size_t player::getResources(size_t resource, string s){
         cout << "Invalid resource" << endl;
         return 0;
     }
+}
+
+size_t player::getAllResources(){
+    size_t res = 0;
+    for(size_t i = 0; i < 5; i++){
+        res += resources[i];
+    }
+    return res;
 }
 
 void player::setResources(size_t resource, int amount){
@@ -522,7 +534,7 @@ void player::getRoads(){
 }
 
 void player::addDevelopmentCard(string s){
-    if(s != "Knight" && s != "Road Building" && s != "Year of Plenty" && s != "Monopoly" && s != "Victory Point"){
+    if(s != "Knight" && s != "RoadBuilding" && s != "YearOfPlenty" && s != "Monopoly" && s != "VictoryPoint"){
         cout << "Invalid development card" << endl;
         return;
     }
@@ -542,7 +554,7 @@ void player::buyDevelopmentCard(deck &d, gameLogic &g){
     setResources(WHEAT, -1); // payment for the development card
     setResources(SHEEP, -1);
     setResources(IRON, -1);
-    cout << getNameOfPlayer() << " bought a development card" << endl;
+    //cout << getNameOfPlayer() << " bought a development card" << endl;
     addDevelopmentCard(d.drawCard()); // draw a card from the deck, and add it to the player's development cards
 }
 
@@ -550,6 +562,8 @@ void player::playDevelopmentCard(gameLogic& g, deck& d, const string& cardType) 
     if (developmentCards[cardType] > 0) {
         if (cardType == "Knight") {
             KnightCard().playCard(*this, g);
+            developmentCards[cardType]--; // the player can't the card twice
+            return; // Knight cards should not return to the deck
         } else if (cardType == "RoadBuilding") {
             roadBuildingCard().playCard(*this, g);
         } else if (cardType == "YearOfPlenty") {
@@ -558,17 +572,21 @@ void player::playDevelopmentCard(gameLogic& g, deck& d, const string& cardType) 
             monopolyCard().playCard(*this, g);
         } else if (cardType == "VictoryPoint") {
             victoryPointCard().playCard(*this, g);
+            developmentCards[cardType]--; // the player can't the card twice
+            return; // Victory point cards should not return to the deck
         } else {
             cout << "Unknown card type!" << endl;
             return;
         }
         developmentCards[cardType]--;
+        d.addCard(cardType);
     } else {
         cout << "No " << cardType << " card available!" << endl;
     }
 }
 
 void player::printDevelopmentCards() {
+    cout << getNameOfPlayer() << " development cards: " << endl;
     for (const auto& [cardType, count] : developmentCards) {
         std::cout << cardType << ": " << count << std::endl;
     }

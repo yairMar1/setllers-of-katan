@@ -42,6 +42,7 @@ public:
     player(string nameOfPlayer, size_t age);
 
     void getNumberOfPoints();
+    size_t getNumberOfPoints(size_t n);
     void setNumberOfPoints(size_t n); // function to set the number of points of the player (i use it in victoryOfPointsCard.hpp)
     size_t getMyTurn();
     void setMyTurn(bool b);
@@ -54,6 +55,7 @@ public:
     void getResources(); // print the resources of the player
     string getResources(size_t resource); // function to get the resources of the player
     size_t getResources(size_t resource, string s); // function to get the amount of specipic resources
+    size_t getAllResources(); // function to get the amount of all resources
     void setResources(size_t resource, int amount); // function to set the resources of the player (add or remove, there is a refrence in case of city or settlement)
 
     //Actions that player can do

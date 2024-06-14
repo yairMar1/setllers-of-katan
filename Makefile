@@ -4,7 +4,7 @@ VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
 all: main
 
-run: main
+catan: main
 	./$^
 
 main: main.o vertex.o edge.o tile.o board.o player.o person.o gameLogic.o deck.o KnightCard.o monopolyCard.o roadBuildingCard.o victoryPointCard.o yearOfPlentyCard.o

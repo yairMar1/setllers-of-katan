@@ -215,21 +215,33 @@ int main(){
     // p[0].buyDevelopmentCard(d);
     // p[0].playDevelopmentCard(d, g1);
 
+    cout << "Number of development: " << d.getDeckSize() << endl;
     p[0].getResources();
     cout << endl;
     p[0].buyDevelopmentCard(d, g1);
+    cout << "Number of development: " << d.getDeckSize() << endl;
     p[0].printDevelopmentCards();
     cout << endl;
     p[0].playDevelopmentCard(g1, d, KNIGHT);
     cout << p[0].getKnightCards() << endl;
+    cout << endl;
+    cout << "Number of development: " << d.getDeckSize() << endl;
+    cout << endl;
+    p[0].getResources();
+    p[1].getResources();
     p[0].playDevelopmentCard(g1, d, ROAD_BUILDING);
     p[0].playDevelopmentCard(g1, d, YEAR_OF_PLENTY);
     p[0].playDevelopmentCard(g1, d, MONOPOLY);
     p[0].playDevelopmentCard(g1, d, VICTORY_POINT);
+    p[0].getResources();
+    p[1].getResources();
     cout << endl;
     p[0].printDevelopmentCards();
-    
+    cout << "Number of development: " << d.getDeckSize() << endl;
+    cout << endl;
+    cout << g1.gameFhinished() << endl;
 
+    p[0].getNumberOfPoints();
 
 
 
