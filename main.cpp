@@ -211,8 +211,7 @@ int main(){
     p[0].playDevelopmentCard(g1, d, KNIGHT);
     cout << p[0].getKnightCards() << endl;
     cout << endl;
-    cout << "Number of development: " << d.getDeckSize() << endl;
-    cout << endl;
+
     p[0].getResources();
     p[1].getResources();
     // ********** player 1 try to play all the development cards **********
@@ -229,7 +228,11 @@ int main(){
     cout << "Number of development: " << d.getDeckSize() << endl;
     cout << endl;
 
-
+    cout << "The score after the first round, that all the player rolled the dices:" << endl;
+    p[0].getNumberOfPoints();
+    p[1].getNumberOfPoints();
+    p[2].getNumberOfPoints();
+    cout << endl;
     cout << g1.gameFhinished() << endl;
 
     return 0;
