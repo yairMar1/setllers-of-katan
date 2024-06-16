@@ -14,18 +14,9 @@ class edge{
 private:
     vertex* a;
     vertex* b;
-
-    // std::shared_ptr<vertex> a;
-    // std::shared_ptr<vertex> b;
-
     bool isClear = true;
 public:
     edge(vertex* a, vertex* b);
-
-    // edge(std::shared_ptr<vertex> a, std::shared_ptr<vertex> b);
-    // std::shared_ptr<vertex> getVertexA() const;
-    // std::shared_ptr<vertex> getVertexB() const;
-
     vertex* getVertexA();
     vertex* getVertexB();
     string getNameOfEdge();

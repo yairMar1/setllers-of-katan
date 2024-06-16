@@ -19,12 +19,6 @@
 #define MONOPOLY "Monopoly"
 #define VICTORY_POINT "VictoryPoint"
 
-// #include "KnightCard.hpp"
-// #include "monopolyCard.hpp"
-// #include "roadBuildingCard.hpp"
-// #include "victoryPointCard.hpp"
-// #include "yearOfPlentyCard.hpp"
-
 using namespace std;
 
 int main(){
@@ -38,12 +32,7 @@ int main(){
     board b;
     
     deck d;
-    d.printDeck();
     cout << endl;
-    // cout << p[0].getNameOfPlayer() << endl;
-    // cout << p[1].getNameOfPlayer() << endl;
-    // cout << p[2].getNameOfPlayer() << endl;
-    // cout << endl;
  
     // for(size_t i = 0; i < 19; i++){//Information about edges and vertices of a specific tile
     //     if(b.get_board()[i].getTypeOfResource() == "iron" && b.get_board()[i].getNumber() == 10){
@@ -113,7 +102,6 @@ int main(){
     p[2].getRoads();
     p[2].getNumberOfPoints();
     cout << endl;
-    //b.get_board().at(4).getVertexes().at(1)->printVertex();
 
     // The game continues with the rest of the turns, each player roll the dice and do the actions that he can do (place a settlement, place a road, buy a development card, trade, end turn)
     
@@ -172,22 +160,9 @@ int main(){
     // p[0].getNumberOfPoints();
     // cout << endl;
 
-    for(size_t i = 0; i < 10; i++){ // we can see that if dice show 10, player 1 ,get 2 iron from tile 10
-        p[0].rollDice(b, g1);
-    }
+    
+    p[0].rollDice(b, g1);
     cout << endl;
-
-    // //********** player 1 try to trade with player 2 **********
-    // p[0].getResources();
-    // cout << endl;
-    // p[1].getResources();
-    // cout << endl;
-    // p[0].trade(p[1], 1, 0, 0, 0, 0, 0, 0, 0, 1, 0);// player 1 ask, 1 wood for 1 sheep
-    // cout << endl;
-    // p[0].getResources();
-    // cout << endl;
-    // p[1].getResources();
-    // cout << endl;
 
     //********** another player try to ineterupt to another player turn **********
     p[0].rollDice(b, g1);
@@ -211,10 +186,21 @@ int main(){
     cout << endl;
     p[0].rollDice(b, g1); // player 1 roll the dice, the turn is now of player 1
     cout << endl;
-    //********** player 1 try to buy a development card **********
-    // p[0].buyDevelopmentCard(d);
-    // p[0].playDevelopmentCard(d, g1);
 
+
+    //********** player 1 try to trade with player 2 **********
+    p[0].getResources();
+    cout << endl;
+    p[1].getResources();
+    cout << endl;
+    p[0].trade(p[1], 1, 0, 0, 0, 0, 0, 0, 0, 1, 0);// player 1 ask, 1 wood for 1 sheep
+    cout << endl;
+    p[0].getResources();
+    cout << endl;
+    p[1].getResources();
+    cout << endl;
+
+    //********** player 1 try to buy a development card **********
     cout << "Number of development: " << d.getDeckSize() << endl;
     p[0].getResources();
     cout << endl;
@@ -229,6 +215,7 @@ int main(){
     cout << endl;
     p[0].getResources();
     p[1].getResources();
+    // ********** player 1 try to play all the development cards **********
     p[0].playDevelopmentCard(g1, d, ROAD_BUILDING);
     p[0].playDevelopmentCard(g1, d, YEAR_OF_PLENTY);
     p[0].playDevelopmentCard(g1, d, MONOPOLY);
@@ -237,61 +224,13 @@ int main(){
     p[1].getResources();
     cout << endl;
     p[0].printDevelopmentCards();
+    p[0].getNumberOfPoints();
+    cout << endl;
     cout << "Number of development: " << d.getDeckSize() << endl;
     cout << endl;
+
+
     cout << g1.gameFhinished() << endl;
 
-    p[0].getNumberOfPoints();
-
-
-
-
-
-    //b.printBoard();
-    // for(size_t i = 0; i < 19; i++){ // all vertices that are clear
-    // cout << "tile " << b.get_board()[i].getNumber() << ": "<< b.get_board()[i].getTypeOfResource() << endl << endl;
-    //     for (size_t j = 0; j < 6; j++){
-    //         if(b.get_board()[i].getVertexes()[j].getIsClear() == 0){
-    //             //cout << "vertex: " << j << "not clear" << endl;
-    //             cout << "vertex: " << b.get_board()[i].getVertexes()[j].getNumberId() << " clear" << endl;
-    //         }
-    //     }
-    // }
-    // for(size_t i = 0; i < 19; i++){ // all edges that are clear
-    // cout << "tile " << b.get_board()[i].getNumber() << ": "<< b.get_board()[i].getTypeOfResource() << endl << endl;
-    //     for (size_t j = 0; j < 6; j++){
-    //         if(b.get_board()[i].getEdges()[j].getIsClear() == 0){
-    //             vector<size_t> nameOfEdge = b.get_board()[i].getEdges()[j].getNameOfEdge();
-    //             for(size_t k = 0; k < 2; k++){
-    //                 cout << nameOfEdge[k] << " ";
-    //             }
-    //             cout << endl;
-    //             //cout << "edge: " << b.get_board()[i].getEdges()[j].getNameOfEdge()[k] << " clear" << endl;
-    //         }
-    //     }
-    // }
-// cout << "*************************************************" << endl;
-//     for(size_t i = 0; i < 19; i++){//Information about edges and vertices of a specific tile
-//         if(b.get_board()[i].getTypeOfResource() == "iron" && b.get_board()[i].getNumber() == 10){
-//             for(size_t j = 0; j < 6; j++){
-//                 b.get_board()[i].getEdges()[j]->printEdge();
-//             }
-//             for(size_t j = 0; j < 6; j++){
-//                 b.get_board()[i].getVertexes()[j]->printVertex();
-//             }
-//         }
-//     }
-
-// cout << "*************************************************" << endl;
-//      for(size_t i = 0; i < 19; i++){//Information about edges and vertices of a specific tile
-//         if(b.get_board()[i].getTypeOfResource() == "sheep" && b.get_board()[i].getNumber() == 2){
-//             for(size_t j = 0; j < 6; j++){
-//                 b.get_board()[i].getEdges()[j]->printEdge();
-//             }
-//             for(size_t j = 0; j < 6; j++){
-//                 b.get_board()[i].getVertexes()[j]->printVertex();
-//             }
-//         }
-//     }
     return 0;
 }

@@ -2,6 +2,10 @@ CC = g++
 CFLAGS = -std=c++17 -Wall
 VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
+CXXFLAGS=-std=c++17 -Werror -Wsign-conversion
+SOURCESTEST=TestCounter.cpp Test.cpp player.cpp gameLogic.cpp board.cpp
+OBJECTSTEST=$(subst .cpp,.o,$(SOURCESTEST))
+
 all: main
 
 catan: main
@@ -60,6 +64,9 @@ yearOfPlentyCard.o: yearOfPlentyCard.cpp yearOfPlentyCard.hpp developmentCard.hp
 
 # valgrind: main
 # 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind-out.txt ./main
+
+test: $(OBJECTSTEST)
+	$(CC) $(CXXFLAGS) $^ -o test
 
 valgrind: main
 	valgrind --leak-check=full --show-leak-kinds=all ./main

@@ -56,6 +56,7 @@ public:
     string getResources(size_t resource); // function to get the resources of the player
     size_t getResources(size_t resource, string s); // function to get the amount of specipic resources
     size_t getAllResources(); // function to get the amount of all resources
+    string getResources(size_t n, size_t r); // function to get the resources of the player (add or remove, there is a refrence in case of city or settlement)
     void setResources(size_t resource, int amount); // function to set the resources of the player (add or remove, there is a refrence in case of city or settlement)
 
     //Actions that player can do

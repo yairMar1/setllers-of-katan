@@ -6,6 +6,7 @@
 #include "yearOfPlentyCard.hpp"
 #include "KnightCard.hpp"
 
+#include <sstream>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -141,6 +142,12 @@ size_t player::getResources(size_t resource, string s){
         cout << "Invalid resource" << endl;
         return 0;
     }
+}
+
+string player::getResources(size_t n, size_t r) {
+    ostringstream oss;
+    oss << "Wood: " << resources[WOOD] << " Iron: " << resources[IRON] << " Wheat: " << resources[WHEAT] << " Sheep: " << resources[SHEEP] << " Clay: " << resources[CLAY];
+    return oss.str();
 }
 
 size_t player::getAllResources(){
