@@ -29,6 +29,11 @@ size_t player::getNumberOfPoints(size_t n){
     return numberOfPoints;
 }
 
+string player::getNumberOfPoints(string s){
+    string t = getNameOfPlayer() + " have " + to_string(numberOfPoints) + " points";
+    return t;
+}
+
 void player::setNumberOfPoints(size_t n){
     numberOfPoints += n;
 }
@@ -538,6 +543,39 @@ void player::getRoads(){
         cout << roads[i]->getNameOfEdge();
     }
     cout << endl;
+}
+
+string player::getRoads(size_t i){
+    string str;
+    str += "The roads of " + getNameOfPlayer()+ ": ";
+    for(size_t j = 0; j < roads.size(); j++){
+        str += roads[j]->getNameOfEdge();
+        if(j != roads.size() - 1){
+            str += " ";
+        }
+    }
+    return str;
+}
+
+stringstream player::getSettlements(string s){
+    stringstream str;
+
+    str << "The settlements of " << getNameOfPlayer() << ": ";
+    for(size_t j = 0; j < settlements.size(); j++){
+        //cout << settlements[j]->getNumberId() << endl;
+        str << settlements[j]->getNumberId();
+        //cout << "hagscavscv" << endl;
+        if(j != settlements.size() - 1){
+            str << " ";
+        }
+    }
+    return str;
+}
+
+string player::getKnightCards(string s){
+    string str;
+    str = numberOfKnightCards;
+    return str;
 }
 
 void player::addDevelopmentCard(string s){

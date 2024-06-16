@@ -3,7 +3,7 @@ CFLAGS = -std=c++17 -Wall
 VALGRIND_FLAGS=-v --leak-check=full --show-leak-kinds=all  --error-exitcode=99
 
 CXXFLAGS=-std=c++17 -Werror -Wsign-conversion
-SOURCESTEST=TestCounter.cpp Test.cpp player.cpp gameLogic.cpp board.cpp
+SOURCESTEST=TestCounter.cpp Test.cpp player.cpp gameLogic.cpp board.cpp vertex.cpp edge.cpp tile.cpp person.cpp deck.cpp KnightCard.cpp monopolyCard.cpp roadBuildingCard.cpp victoryPointCard.cpp yearOfPlentyCard.cpp
 OBJECTSTEST=$(subst .cpp,.o,$(SOURCESTEST))
 
 all: main

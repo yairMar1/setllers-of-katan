@@ -34,18 +34,6 @@ int main(){
     deck d;
     cout << endl;
  
-    // for(size_t i = 0; i < 19; i++){//Information about edges and vertices of a specific tile
-    //     if(b.get_board()[i].getTypeOfResource() == "iron" && b.get_board()[i].getNumber() == 10){
-    //         for(size_t j = 0; j < 6; j++){
-    //             b.get_board()[i].getEdges()[j]->printEdge();
-    //         }
-    //         for(size_t j = 0; j < 6; j++){
-    //             b.get_board()[i].getVertexes()[j]->printVertex();
-    //         }
-    //     }
-    // }
-    // cout << endl;
-    
     //First turn of the game - each player places a settlement and a road on the board
     p[0].placeSettelemnt(b, b.get_board()[0].getVertexes()[3], 1);// set v31 as a settlement
     p[0].getResources();
@@ -106,87 +94,9 @@ int main(){
     // The game continues with the rest of the turns, each player roll the dice and do the actions that he can do (place a settlement, place a road, buy a development card, trade, end turn)
     
     srand(time(0)); // ensure that the random number will be different each time
-    
-    // for(size_t i = 0; i < 5; i++){
-    // p[0].rollDice(b, g1);
-    // }
-    // cout << endl;
-    // p[0].getResources();
-    // cout << endl;
-    // p[1].getResources();
-    // cout << endl;
-    // p[2].getResources();
-    // //********** player 1 try to place a settlement and road, detached from his tools on the board **********
-    // // p[0].placeSettelemnt(b,b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
-    // // p[0].getSettlements();
-    // // p[0].placeRoad(b,b.get_board()[0].getEdges()[0]);// set e0 as a road
-    // // p[0].getRoads();
-    // // p[0].getNumberOfPoints();
-    // // cout << endl;
 
-
-    // //********** player 1 try to place a settlement and road, but he doesn't have enough resources**********
-    // p[0].rollDice(b, g1);
-    // cout << endl;
-    // p[0].getResources();
-    // cout << endl;
-    // p[0].placeSettelemnt(b,b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
-    // p[0].getSettlements();
-    // p[0].placeRoad(b,b.get_board()[0].getEdges()[0]);// set e0 as a road
-    // p[0].getRoads();
-    // p[0].getNumberOfPoints();
-    // cout << endl;
-
-
-    // //********** player 1 place a road, settlement and city. he have enough resources. we can see the amount of his resources get down**********
-    // for(size_t i = 0; i < 100; i++){
-    //     p1.rollDice(b, g1);
-    // }
-    // cout << endl;
-    // p[0].getResources();
-    // cout << endl;
-    // p[0].placeRoad(b, b.get_board()[0].getEdges()[1]);// set e1 as a road
-    // p[0].getResources();
-    // cout << endl;
-    // p[0].placeSettelemnt(b, b.get_board()[0].getVertexes()[1]);// set v1 as a settlement
-    // p[0].getResources();
-    // p[0].getSettlements();
-    // p[0].getNumberOfPoints();
-    // cout << endl;
-    // p[0].placeCity(b, b.get_board()[0].getVertexes()[1]);// set v1 as a city
-    // p[0].getResources();
-    // p[0].getSettlements();
-    // p[0].getCitys();
-    // p[0].getNumberOfPoints();
-    // cout << endl;
-
-    
-    p[0].rollDice(b, g1);
-    cout << endl;
-
-    //********** another player try to ineterupt to another player turn **********
-    p[0].rollDice(b, g1);
-    cout << endl;
-    p[1].placeRoad(b, b.get_board()[0].getEdges()[1]);
-    cout << "is the turn of yair ? " << p[0].getMyTurn() << endl;
-    p[0].endTurn(g1);
-    cout << "is the turn of yair ? " << p[0].getMyTurn() << endl;
-
-    p[0].rollDice(b, g1);// player 1 try to roll the dice again after he end his turn
-    cout << endl;
-    p[2].rollDice(b, g1); // player 3 try to bypass the turn
-    cout << endl;
-    p[1].rollDice(b, g1); // player 2 roll the dice, the turn is now of player 2
-    cout << endl;
-    p[1].endTurn(g1);
-    cout << endl;
-    p[2].rollDice(b, g1); // player 3 roll the dice, the turn is now of player 3
-    cout << endl;
-    p[2].endTurn(g1);
-    cout << endl;
     p[0].rollDice(b, g1); // player 1 roll the dice, the turn is now of player 1
     cout << endl;
-
 
     //********** player 1 try to trade with player 2 **********
     p[0].getResources();
@@ -209,23 +119,45 @@ int main(){
     p[0].printDevelopmentCards();
     cout << endl;
     p[0].playDevelopmentCard(g1, d, KNIGHT);
+    cout << "Number of development: " << d.getDeckSize() << endl;
     cout << p[0].getKnightCards() << endl;
     cout << endl;
 
     p[0].getResources();
     p[1].getResources();
+    cout << endl;
     // ********** player 1 try to play all the development cards **********
     p[0].playDevelopmentCard(g1, d, ROAD_BUILDING);
     p[0].playDevelopmentCard(g1, d, YEAR_OF_PLENTY);
     p[0].playDevelopmentCard(g1, d, MONOPOLY);
     p[0].playDevelopmentCard(g1, d, VICTORY_POINT);
+    cout << endl;
+
     p[0].getResources();
     p[1].getResources();
     cout << endl;
+
     p[0].printDevelopmentCards();
     p[0].getNumberOfPoints();
     cout << endl;
-    cout << "Number of development: " << d.getDeckSize() << endl;
+
+    p[0].endTurn(g1); // player 1 end his turn
+
+    p[1].rollDice(b, g1); // player 2 roll the dice, the turn is now of player 2
+    p[1].endTurn(g1); // player 2 end his turn
+
+    p[2].rollDice(b, g1); // player 3 roll the dice, the turn is now of player 3
+
+    //********** player 3 try to trade with player 1 **********
+    p[2].getResources();
+    cout << endl;
+    p[0].getResources();
+    cout << endl;
+    p[2].trade(p[0], 1, 1, 0, 0, 0, 0, 0, 1, 0, 0);// player 2 ask, 1 wood and 1 iron for 1 wheat
+    cout << endl;
+    p[0].getResources();
+    cout << endl;
+    p[2].getResources();
     cout << endl;
 
     cout << "The score after the first round, that all the player rolled the dices:" << endl;
@@ -233,6 +165,7 @@ int main(){
     p[1].getNumberOfPoints();
     p[2].getNumberOfPoints();
     cout << endl;
+
     cout << g1.gameFhinished() << endl;
 
     return 0;
