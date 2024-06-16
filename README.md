@@ -115,6 +115,4 @@ Each development card inherits this class, overrides the functions and implement
 
 ## Usage ##
 
-`main.cpp` - During the run of the main we can see two rounds of choosing settlements and roads for each player. Then there is one turn of the first player where he tries to trade with another player, buying a development card and using it.
-There are also extreme cases that are examined such as the location of a settlement in an illegal place as well as a road. A case where 7 came out in the dice and taking down cards if necessary.
-Also in the comments there are cases that we can check such as information about vertices and edges of a specific tile.
+`main.cpp` - During the run of the main we can see two rounds of choosing settlements and roads for each player. Then there is one turn from all player.one of them  tries to trade with another player, buying a development card and using it.
