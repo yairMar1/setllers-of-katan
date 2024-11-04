@@ -2,6 +2,11 @@
 
 Welcome to the Catan Game project. This project contains a basic implementation of the Catan game in the C++ programming language. The project includes the creation of vertices, edges, tiles, and the game board, as well as basic game logic.
 
+## Game map ##
+The game map is based on the picture in the project.
+Each vertex, edge, tile number and resource are also fixed according to the image.
+![Game map](map.png)
+
 ## Files ##
 
 ### vertex.hpp and vertex.cpp ###
