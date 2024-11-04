@@ -6,7 +6,7 @@ Welcome to the Catan Game project. This project contains a basic implementation 
 The game map is based on the picture in the project.  
 Each vertex, edge, tile number and resource are also fixed according to the image.
 
-[Game map]
+[Game map](map.png)
 
 ## Files ##
 
